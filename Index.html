@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart AI Study Planner</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #e0b0ff 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 15px;
+            color: #666;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(100px);
+            padding: 25px;
+            border-radius: 30px;
+            box-shadow: 0 8px 32px rgba(128,0,128,0.85);
+            border: 5px solid #e0b0ff;
+            margin-bottom: 25px;
+            transition: transform 0.3s ease;
+        }
+        
+        /*Modern Titles*/
+
+        h2 {
+            background:linear-gradient(45deg, #6c5ce7,#a29bfe);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color: transparent;
+            margin-top: 0;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+        .form-group {
+            margin-bottom: 30px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: #333;
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        input[type="text"], input[type="number"], input[type="date"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 3px solid rgba(224, 176, 255, 0.85);
+            border-radius: 120px;
+            box-sizing: border-box;
+            background: rgba(255, 255, 255, 0.85);
+            font-size: 16px;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+        input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus {
+            border-color: #6c5ce7;
+            box-shadow: 0 0 15px rgba(108, 92, 231, 0.2);
+            background: rgba(255, 255, 255, 0.9);
+            outline: none;
+        }
+        button {
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.98);
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background: linear-gradient(45deg,#a29bfe, #6c5ce7);
+            box-shadow: 0 6px 20px rgba(108, 92, 231, 0.5);
+            transform: translateY(-3px);
+        }
+        .quote-box {
+            background: rgba(255, 255, 255, 0.87);
+            border-left: 6px solid #7c3aed;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-style: italic;
+            font-size: 13px;
+            color: green;
+            margin-bottom: 25px;
+        }
+        .creator {
+            background: rgba(255, 255,255,0.87);
+            border-left:6px solid #7c3aed;
+            padding:12px 16px;
+            border-radius:20px;
+            font-style:italic;
+            font-size:13px;
+            color:red;
+            margin-bottom:25px;
+        }
+        .routine-output {
+            background: rgba(224, 242, 254, 0.87);
+            backdrop-filter: blur(10px);
+            border-left: 7px solid #0284c7;
+            border-right: 7px solid #0284c7;
+            padding: 20px;
+            border-radius: 18px;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.87);
+            display: none; /* Initial state hidden, JS will display it */
+        }
+        .chat-box {
+            background: rgba(212, 247, 226, 0.7);
+            backdrop-filter: blur(10px);
+            border-left: 6px solid #10b981;
+            border-right: 6px solid #10b981;
+            padding: 20px;
+            border-radius: 20px;
+            margin-top: 20px;
+            box-shadow: 0 6px 15px rgba(16, 185, 129, 1);
+            display: none; /* Initial state hidden, JS will display it */
+        }
+        
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="quote-box">
+        <strong>Topper's Tip:</strong> "Consistency transforms average into excellence and practice makes the student perfect Let's build your routine!"
+    </div>
+    
+    <div class="card">
+        <h2>Routine Generator</h2>
+        <form id="routineForm" action="/generate" method="POST">
+            <div class="form-group">
+                <label>Name:</label>
+                <input type="text" name="name" placeholder="Name" required>
+            </div>
+            <div class="form-group">
+                <label>Class:</label>
+                <input type="number" name="class" placeholder="Class" required>
+            </div>
+            <div class="form-group">
+                <label>Subject:</label>
+                <input type="text" name="subject" placeholder="Subject" required>
+            </div>
+            <div class="form-group">
+                <label>Today's Date:</label>
+                <input type="date" name="Date" value="2026-06-16" required>
+            </div>
+            <div class="form-group">
+                <label>Exam Date:</label>
+                <input type="date" name="exam_date" value="2026-06-16" required>
+            </div>
+            <div class="form-group">
+                <label>Total Chapters:</label>
+                <input type="number" name="chapters" placeholder="Chapters" required>
+            </div>
+            <div class="form-group">
+                <label>Chapter difficulty:</label>
+                <input type="text" name="difficulty" placeholder="Difficulty" required>
+            </div>
+            <button type="submit">Generate Routine </button>
+        </form>
+    </div>
+
+    <div id="routineBox" class="routine-output">
+        <h3>Routine</h3>
+        <p id="routineText"></p>
+    </div>
+
+
+    <div class="card">
+        <h2>Ask the AI (Wiki Search)</h2>
+        <form id="wikiForm" action="/ask" method="POST">
+            <div class="form-group">
+                <input type="text" name="query" placeholder="Ask Any questions About Chapter" required>
+            </div>
+            <button type="submit" style="background-color: #34a853;">Ask Wiki AI 🔍</button>
+        </form>
+
+        <div id="wikiBox" class="chat-box">
+            <p><strong>AI Response:</strong></p>
+            <p id="wikiResponse"></p>
+        </div>
+    </div> 
+</div> 
+
+<div class="creator">
+    <strong>Creator: </strong> "this was made by Deepjyoti_WD, for students, thank you for using this"
+</div>
+
+<script>
+// 1. Routine Form Processor
+document.getElementById('routineForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    var routineBox = document.getElementById('routineBox');
+    var routineText = document.getElementById('routineText');
+    
+    routineText.innerText = "Generating your dynamic study routine...";
+    routineBox.style.display = "block";
+    
+    var formData = new FormData(this);
+    
+    fetch('/generate', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        routineText.innerText = data;
+    })
+    .catch(error => {
+        routineText.innerText = "Error generating routine. Please check inputs.";
+    });
+});
+
+// 2. Wikipedia Search Processor
+document.getElementById('wikiForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    var wikiBox = document.getElementById('wikiBox');
+    var wikiResponse = document.getElementById('wikiResponse');
+    
+    wikiResponse.innerText = "Searching Wiki AI... Please wait.";
+    wikiBox.style.display = "block";
+    
+    var formData = new FormData(this);
+    
+    fetch('/ask', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        wikiResponse.innerText = data;
+    })
+    .catch(error => {
+        wikiResponse.innerText = "Failed to fetch response. Try again.";
+    });
+});
+</script>
+
+</body>
+</html>
